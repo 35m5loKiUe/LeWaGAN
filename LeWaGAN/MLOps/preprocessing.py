@@ -1,8 +1,8 @@
 import tensorflow
-
+from LeWaGAN.MLOps.params import IMAGE_SIZE
 
 #Create a dataset from a local directory
-def create_dataset(path, image_size=(128, 128), batch_size=32, color_mode='rgb',
+def create_dataset(path, image_size=(IMAGE_SIZE, IMAGE_SIZE), labels=None, color_mode='rgb', batch_size=32,
                      validation_split=0.) :
     """This function create a dataset for tensorflow from a directory with images
     arguments :
