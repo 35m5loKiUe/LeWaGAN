@@ -1,4 +1,32 @@
-from LeWaGAN.MLOps.params import CHECKPOINT_PATH
-from tensorflow.train import Checkpoint
+from LeWaGAN.MLOps.params import PREPROC_LOCATION, ROOT_PATH, PREPROC_PATH, IMAGE_SIZE
+import os
+import pickle
 
-# Definir un load model
+
+
+# Sauvegerde le preprocessing en local ou sur GCP
+def save_preprocessing(where=PREPROC_LOCATION, preproc_data):
+    if == 'LOCAL':
+        with open(os.path.join(ROOT_PATH, PREPROC_PATH, f'dataset_{IMAGE_SIZE}'),'wb') as file :
+            pickle.dump(preproc_data, file)
+    return preproc_data
+
+# Sauvegerde le preprocessing en local ou sur GCP
+def load_preprocessing(where=PREPROC_LOCATION):
+    if == 'LOCAL':
+        with open(os.path.join(ROOT_PATH, PREPROC_PATH, f'dataset_{IMAGE_SIZE}'),'wb') as file :
+            preproc_data = pickle.load(preproc_data, file)
+    return preproc_data
+
+
+# Sauvegerde le preprocessing en local ou sur GCP
+def save_model(where=PREPROC_LOCATION):
+
+
+    pass
+
+
+# Sauvegerde le preprocessing en local ou sur GCP
+def load_model(where=PREPROC_LOCATION):
+
+    pass

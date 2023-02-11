@@ -1,5 +1,5 @@
-from LeWaGAN.MLOps.params import EPOCHS, BATCH_SIZE, GENERATOR_OPTIMIZER, DISCRIMINATOR_OPTIMIZER, NOISE_DIM
-from tensorflow.keras import losses, ones_like, zeros_like
+from LeWaGAN.MLOps.params import EPOCHS, BATCH_SIZE, NOISE_DIM
+from tensorflow.keras import losses, pi, zeros_like
 from tensorflow import GradientTape, random
 
 
