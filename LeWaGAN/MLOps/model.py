@@ -13,7 +13,7 @@ from tensorflow import ones_like, zeros_like
 from tensorflow.keras import layers, losses, Sequential, optimizers
 from tensorflow.train import Checkpoint
 
-from LeWaGAN.MLOps.params import EPOCHS, BATCH_SIZE, CHECKPOINT_PATH, IMAGE_SIZE
+from LeWaGAN.MLOps.params import EPOCHS, CHECKPOINT_PATH, IMAGE_SIZE, ROOT_PATH
 from LeWaGAN.MLOps.model_logic import discriminator_loss, train_step
 
 global generator_optimizer, discriminator_optimizer
@@ -74,17 +74,7 @@ def make_discriminator_model(image_size=IMAGE_SIZE):
     return model
 
 
-def save_model(
-    generator_optimizer = None,
-    discriminator_optimizer = None,
-    generator = None,
-    discriminator = None
-    ):
-    checkpoint_prefix = os.path.join(CHECKPOINT_PATH, "ckpt")
-    checkpoint.save(file_prefix = checkpoint_prefix)
-
-
-def train(dataset, discriminator, generator):
+def train(dataset, discriminator, generator, checkpoints_period=100):
 
   for epoch in range(EPOCHS):
     start = time.time()
@@ -98,12 +88,12 @@ def train(dataset, discriminator, generator):
           discriminator_optimizer
           )
 
-
-    # Save the model every 15 epochs
-    checkpoint_prefix = os.path.join(CHECKPOINT_PATH, "ckpt")
     checkpoint = Checkpoint(generator_optimizer=generator_optimizer,
                                  discriminator_optimizer=discriminator_optimizer,
                                  generator=generator,
                                  discriminator=discriminator)
+
+    if (epoch + 1) % checkpoints_period == 0:
+        checkpoint.save(os.path.join(ROOT_PATH, CHECKPOINT_PATH)
 
     print ('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
