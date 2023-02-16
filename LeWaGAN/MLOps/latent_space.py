@@ -29,7 +29,7 @@ def generate_with_eigenvectors(generator_model, noise, alpha) :
     alpha ; 1 by default, scalar to apply same weight to each eigenvector, array of size k to apply
     different weight to each vectors.
     """
-    assert isinstance(alpha, (int, float, list, np.array)) == True
+    assert isinstance(alpha, (list, np.array)) == True
 
     #Get the weight matrix and compute A*A_T
     weight_matrix = generator_model.trainable_variables[0].numpy()
