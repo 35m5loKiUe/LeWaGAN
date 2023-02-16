@@ -23,7 +23,7 @@ def get_eigenvectors(matrix, k=10) :
     return np.array(vectors)
 
 
-def generate_with_eigenvectors(alpha=1) :
+def generate_with_eigenvectors(generator_model, noise, alpha) :
     """This function generates an image with control over the noise (with eigenvecotrs)
     Args :
     alpha ; 1 by default, scalar to apply same weight to each eigenvector, array of size k to apply
@@ -31,13 +31,8 @@ def generate_with_eigenvectors(alpha=1) :
     """
     assert isinstance(alpha, (int, float, list, np.array)) == True
 
-    generator = model.make_generator_model()
-
-    #Generate a random noise of shape (100,)
-    noise = np.random.normal([1, 100])
-
     #Get the weight matrix and compute A*A_T
-    weight_matrix = generator.trainable_variables[0].numpy()
+    weight_matrix = generator_model.trainable_variables[0].numpy()
 
     #Compute eigenvectors (list of k vectors, callable by index)
     vectors = get_eigenvectors(weight_matrix, k=10)
@@ -52,6 +47,6 @@ def generate_with_eigenvectors(alpha=1) :
 
 
     #generate an image
-    generated_image = generator(final_noise)
+    generated_image = generator_model(final_noise)
 
     return generated_image
