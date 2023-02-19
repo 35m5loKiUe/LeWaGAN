@@ -1,4 +1,7 @@
-def make_optimizer(learning_rate=0.0002, beta_1=0.5, beta_2=0.9)
+from tensorflow import keras
+import tensorflow as tf
+
+def make_optimizer(learning_rate=0.0002, beta_1=0.5, beta_2=0.9):
     return keras.optimizers.Adam(
         learning_rate=0.0002,
         beta_1=0.5,

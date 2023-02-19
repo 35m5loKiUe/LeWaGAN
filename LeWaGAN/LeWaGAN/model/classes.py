@@ -10,7 +10,7 @@ class WGAN(keras.Model):
     def __init__(
         self,
         discriminator,
-        generator,discriminator_loss
+        generator,
         latent_dim,
         discriminator_extra_steps=3,
         gp_weight=10.0,
@@ -115,7 +115,7 @@ class GANMonitor(keras.callbacks.Callback):
 
     def on_epoch_end(self, epoch, logs=None):
 
-        if not epoch%MODEL_SAVE_FRQ :
+        if not epoch % MODEL_SAVE_FRQ :
             self.model.generator.save(os.path.join(ROOT_PATH, MODEL_PATH, 'generator_after_epoch_{epoch}').format(epoch=epoch))
             self.model.discriminator.save(os.path.join(ROOT_PATH, MODEL_PATH, 'discriminator_after_epoch_{epoch}').format(epoch=epoch))
 

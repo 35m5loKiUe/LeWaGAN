@@ -1,4 +1,4 @@
-from LeWaGAN.interface.params import IMAGE_SIZE, NB_FILTERS, NOISE_DIM, BATCH_SIZE, EPOCHS
+from LeWaGAN.interface.params import NOISE_DIM, BATCH_SIZE, EPOCHS
 
 from LeWaGAN.model.network import make_generator_model, make_discriminator_model
 from LeWaGAN.model.classes import WGAN, GANMonitor
