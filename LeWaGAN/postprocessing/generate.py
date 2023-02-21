@@ -8,7 +8,7 @@ def generate_noise(number_of_noise_vectors):
     return tf.random.normal(shape=(number_of_noise_vectors, NOISE_DIM))
 
 
-def eigenvectors(matrix, k=10) :
+def eigenvectors(matrix, k=4) :
     """This function computes the k most important eigenvectors from
     a matrix of weight
     it returns a list of k vectors callable by index"""
@@ -40,7 +40,7 @@ def image_with_eigenvectors(generator_model, noise, alpha) :
     weight_matrix = generator_model.trainable_variables[0].numpy()
 
     #Compute eigenvectors (list of k vectors, callable by index)
-    vectors = eigenvectors(weight_matrix, k=10)
+    vectors = eigenvectors(weight_matrix, k=4)
 
     #generate a new noise
     c = 0
@@ -52,5 +52,8 @@ def image_with_eigenvectors(generator_model, noise, alpha) :
 
     #generate an image
     generated_images = generator_model(final_noise)
+    return np.squeeze(generated_images)*255
 
-    return generated_images
+def display_sample(generator_model, noise, alpha):
+    images = image_with_eigenvectors(generator_model, noise, alpha)
+    return images.astype(np.uint8)

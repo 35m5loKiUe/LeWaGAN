@@ -5,8 +5,9 @@ import numpy as np
 from LeWaGAN.model.network import make_generator_model, make_discriminator_model
 from LeWaGAN.model.classes import WGAN, GANMonitor
 from LeWaGAN.model.solver import make_optimizer, discriminator_loss, generator_loss
-
+from LeWaGAN.model.registery import load_model
 from LeWaGAN.data.dataset import load_dataset, normalize_dataset
+
 
 from LeWaGAN.postprocessing.generate import image_with_eigenvectors, generate_noise
 
@@ -35,10 +36,15 @@ def train_model(model, dataset):
     model.fit(dataset, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[cbk])
     return model
 
+
+
 def display_sample(generator_model, noise, alpha):
     images = image_with_eigenvectors(generator_model, noise, alpha)
     return images.astype(np.uint8)
 
 
 if __name__ == '__main__':
-    model = generate_model()
+    model = load_model()
+    noise = generate_noise(4)
+    alpha = [0,0,0,0]
+    img = display_sample(model, noise,alpha)
