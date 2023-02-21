@@ -52,5 +52,6 @@ def image_with_eigenvectors(generator_model, noise, alpha) :
 
     #generate an image
     generated_images = generator_model(final_noise)
-
-    return generated_images
+    generated_images = np.squeeze(generated_images(noise))
+    img = np.squeeze(generated_images(noise))*255
+    return img.astype(np.uint8)
