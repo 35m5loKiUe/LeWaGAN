@@ -2,7 +2,7 @@ import numpy as np
 from scipy import linalg as LA
 import tensorflow as tf
 
-from LeWaGAN.interface.params import NOISE_DIM
+from LeWaGAN.Interface.params import NOISE_DIM
 
 def generate_noise(number_of_noise_vectors):
     return tf.random.normal(shape=(number_of_noise_vectors, NOISE_DIM))

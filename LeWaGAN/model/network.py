@@ -1,8 +1,8 @@
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers
+from keras import layers
 
-from LeWaGAN.interface.params import NB_FILTERS, NOISE_DIM, IMAGE_SIZE
+from LeWaGAN.Interface.params import NB_FILTERS, NOISE_DIM, IMAGE_SIZE
 
 def make_generator_model():
     model = tf.keras.Sequential()

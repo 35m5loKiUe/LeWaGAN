@@ -4,7 +4,7 @@ from tensorflow.keras import layers
 import matplotlib.pyplot as plt
 import os
 
-from LeWaGAN.interface.params import MODEL_SAVE_FRQ, ROOT_PATH, MODEL_PATH
+from LeWaGAN.Interface.params import MODEL_SAVE_FRQ, ROOT_PATH, MODEL_PATH
 
 class WGAN(keras.Model):
     def __init__(

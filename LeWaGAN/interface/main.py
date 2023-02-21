@@ -1,4 +1,6 @@
-from LeWaGAN.interface.params import NOISE_DIM, BATCH_SIZE, EPOCHS
+from params import NOISE_DIM, BATCH_SIZE, EPOCHS
+
+import numpy as np
 
 from LeWaGAN.model.network import make_generator_model, make_discriminator_model
 from LeWaGAN.model.classes import WGAN, GANMonitor
@@ -35,11 +37,8 @@ def train_model(model, dataset):
 
 def display_sample(generator_model, noise, alpha):
     images = image_with_eigenvectors(generator_model, noise, alpha)
-
+    return images.astype(np.uint8)
 
 
 if __name__ == '__main__':
     model = generate_model()
-    dataset = load_dataset()
-    dataset = normalize_dataset(dataset)
-    model = train_model(model)

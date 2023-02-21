@@ -1,5 +1,5 @@
 import tensorflow as tf
-from LeWaGAN.interface.params import BATCH_SIZE, DATA_LOCATION, IMAGE_SIZE, ROOT_PATH, DATA_PATH
+from LeWaGAN.Interface.params import BATCH_SIZE, DATA_LOCATION, IMAGE_SIZE, ROOT_PATH, DATA_PATH
 import os
 
 def load_dataset():
