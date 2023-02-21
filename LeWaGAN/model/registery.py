@@ -1,19 +1,19 @@
-from LeWaGAN.interface.params import PREPROC_LOCATION, ROOT_PATH, PREPROC_PATH, IMAGE_SIZE
+from LeWaGAN.interface.params import MODEL_LOCATION, ROOT_PATH, MODEL_PATH, IMAGE_SIZE
 import os
 import pickle
 
 
 
-# Sauvegerde le preprocessing en local ou sur GCP
-def save_preprocessing(where=PREPROC_LOCATION, preproc_data):
-    if == 'LOCAL':
-        with open(os.path.join(ROOT_PATH, PREPROC_PATH, f'dataset_{IMAGE_SIZE}'),'wb') as file :
-            pickle.dump(preproc_data, file)
-    return preproc_data
+# Sauvegarde le model en local ou sur GCP
+def save_model(model):
+    if MODEL_LOCATION == 'LOCAL':
+        with open(os.path.join(ROOT_PATH, MODEL_PATH, f'dataset_{IMAGE_SIZE}'),'wb') as file :
+            pickle.dump(model, file)
+    return model
 
-# Sauvegerde le preprocessing en local ou sur GCP
-def load_preprocessing(where=PREPROC_LOCATION):
-    if == 'LOCAL':
-        with open(os.path.join(ROOT_PATH, PREPROC_PATH, f'dataset_{IMAGE_SIZE}'),'wb') as file :
-            preproc_data = pickle.load(preproc_data, file)
-    return preproc_data
+# Sauvegarde le model en local ou sur GCP
+def load_model():
+    if MODEL_LOCATION == 'LOCAL':
+        with open(os.path.join(ROOT_PATH, MODEL_PATH, f'dataset_{IMAGE_SIZE}'),'wb') as file :
+            model = pickle.load(model, file)
+    return model
