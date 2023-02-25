@@ -12,3 +12,7 @@ LeWaGAN/model_saves/
 LeWaGAN/notebooks/Test.ipynb
 data/
 notebooks/
+.ipynb_checkpoints
+.ipynb
+saved_models
+local_training/
