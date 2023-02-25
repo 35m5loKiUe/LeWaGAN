@@ -18,6 +18,7 @@ def generate_noise(number_of_noise_vectors, seed=0):
         return noise
 
 
+
     noises = []
     #Generation of multiple noise vectors
     for k in range(number_of_noise_vectors) :
@@ -39,7 +40,7 @@ def eigenvectors(model, k=10) :
     it returns a list of k vectors callable by index"""
 
     #Get the weight matrix
-    A = model.generator.layers[0].weights
+    A = model.generator.layers[1].weights
     A = np.squeeze(A)
     start_time = time.time()
     print('\nComputing AT.A...')

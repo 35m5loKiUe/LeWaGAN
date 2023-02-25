@@ -160,7 +160,7 @@ class WGAN(keras.Model):
         return {"d_loss": d_loss, "g_loss": g_loss}
 
 class GANMonitor(keras.callbacks.Callback):
-    def __init__(self, sqr_size=2, latent_dim=128, latent_vec=tf.random.normal(shape=(1,128))):
+    def __init__(self, sqr_size=5, latent_dim=128, latent_vec=tf.random.normal(shape=(1,128))):
         self.sqr_size = sqr_size
         self.latent_dim = latent_dim
         self.latent_vec = latent_vec
@@ -331,7 +331,7 @@ class GAN_ADA(keras.Model):
             x = layers.BatchNormalization(scale=False)(x)
             x = layers.ReLU()(x)
         image_output = layers.Conv2DTranspose(
-            3, kernel_size=4, strides=2, padding="same", activation="sigmoid",
+            3, kernel_size=4, strides=2, padding="same", activation="tanh",
         )(x)
 
         return keras.Model(noise_input, image_output, name="generator")
@@ -340,7 +340,7 @@ class GAN_ADA(keras.Model):
     def discriminator(self):
         image_input = keras.Input(shape=(self.image_size, self.image_size, 3))
         x = image_input
-        for _ in range(self.depth):
+        for _ in range(self.depth+1):
             x = layers.Conv2D(
                 self.width, kernel_size=4, strides=2, padding="same", use_bias=False,
             )(x)
