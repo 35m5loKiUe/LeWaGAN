@@ -32,8 +32,8 @@ def generate_model(model_type='gan_ada'):
 #    return model
 
 def train_model(model, dataset):
-    latent_vec=generate_noise(2**2)
-    cbk = GANMonitor(sqr_size=2, latent_dim=NOISE_DIM, latent_vec=latent_vec)
+    latent_vec=generate_noise(5**2)
+    cbk = GANMonitor(sqr_size=5, latent_dim=NOISE_DIM, latent_vec=latent_vec)
     model.fit(dataset, epochs=EPOCHS, callbacks=[cbk])
     return model
 
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     #eig = save_eigenvectors(eig)
 
     #eig = load_eigenvectors()
-    #noise = generate_noise(1)
+    #noise = generate_noise(1, 1)
     #
     #fig = plt.figure(figsize=(10, 10))
     #for i in range(16):
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     #    img = image_with_eigenvectors(
     #        model=model,
     #        noise=noise,
-    #        alpha = [0,0,0,0,0],
+    #        alpha = [i,0,0,0,0],
     #        eigenvectors=eig
     #        )
     #    plt.imshow(img)

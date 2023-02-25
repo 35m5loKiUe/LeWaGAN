@@ -13,5 +13,5 @@ def load_dataset():
     )
 
 def normalize_dataset(dataset):
-    normalization_layer = tf.keras.layers.Rescaling(scale=1./255)
+    normalization_layer = tf.keras.layers.Rescaling(scale=1./127.5, offset=-1)
     return dataset.map(lambda x: (normalization_layer(x)))

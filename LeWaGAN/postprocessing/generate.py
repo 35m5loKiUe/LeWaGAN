@@ -1,33 +1,66 @@
 import numpy as np
 from scipy import linalg as LA
 import tensorflow as tf
+import time
 from LeWaGAN.interface.params import NOISE_DIM
+from scipy.stats import truncnorm
 
-def generate_noise(number_of_noise_vectors):
-    return tf.random.normal(shape=(number_of_noise_vectors, NOISE_DIM))
+def get_truncated_normal(mean=0, sd=1, low=0, upp=10):
+    return truncnorm(
+        (low - mean) / sd, (upp - mean) / sd, loc=mean, scale=sd)
+
+def generate_noise(number_of_noise_vectors, seed=0):
+    #If we only generate 1 vectors
+    if number_of_noise_vectors == 1 :
+        X = get_truncated_normal(mean=0, sd=1, low=-1, upp=1)
+        noise = tf.convert_to_tensor(X.rvs(100, random_state=seed)) #keep the same random_state
+        noise = tf.expand_dims(noise, axis=0)
+        return noise
 
 
-def eigenvectors(matrix, k=10) :
+
+    noises = []
+    #Generation of multiple noise vectors
+    for k in range(number_of_noise_vectors) :
+        X = get_truncated_normal(mean=0, sd=1, low=-1, upp=1)
+        noise = tf.convert_to_tensor(X.rvs(100, random_state=seed+k)) #keep several random_states
+        noises.append(noise)
+    return tf.convert_to_tensor(noises)
+
+def normalize_vector(v) :
+    norm = LA.norm(v)
+    if norm == 0 :
+        return v
+    return v / norm
+
+
+def eigenvectors(model, k=10) :
     """This function computes the k most important eigenvectors from
-    a matrix of weight
+    1st dense layer of generator
     it returns a list of k vectors callable by index"""
 
-    #Compute AT*A
-    A = np.dot(matrix, matrix.transpose())
-
+    #Get the weight matrix
+    A = model.generator.layers[1].weights
+    A = np.squeeze(A)
+    start_time = time.time()
+    print('\nComputing AT.A...')
+    #Compute AT*A, remark AT and A are inverted in layers weights, so we compute A.AT instead
+    ATA = np.dot(A, np.transpose(A))
+    print(f'\nATA computed in {time.time() - start_time}s')
+    start_time = time.time()
+    print('\nComputing eigenvalues and eigenvectors...')
     #Compute eigenvalues and eigenvectors
-    w, v = LA.eig(A)
-
+    w, v = LA.eig(ATA)
+    print(f'\neigenvalues and eigenvectors computed in {time.time() - start_time}s')
     #Get the index of k most important eigenvalues
     sort = sorted(range(len(w)), key=lambda k: w[k], reverse=True)[:k]
-
     #Get the k most important eigenvectors
-    vectors = [v[i] for i in sort ]
+    vectors = [normalize_vector(v[i]) for i in sort]
 
     return np.array(vectors)
 
 
-def image_with_eigenvectors(generator_model, noise, alpha) :
+def image_with_eigenvectors(model, noise, alpha, eigenvectors) :
     """This function generates an image with control over the noise (with eigenvecotrs)
     Args :
     alpha ; 1 by default, scalar to apply same weight to each eigenvector, array of size k to apply
@@ -35,23 +68,14 @@ def image_with_eigenvectors(generator_model, noise, alpha) :
     """
     assert isinstance(alpha, (list, np.array)) == True
 
-    #Get the weight matrix and compute A*A_T
-    weight_matrix = generator_model.trainable_variables[0].numpy()
-
-    #Compute eigenvectors (list of k vectors, callable by index)
-    vectors = eigenvectors(weight_matrix, k=10)
-
-    #generate a new noise
+    #generate updated noise
     c = 0
-    for vector in vectors :
+    for vector in eigenvectors :
         noise += vector*alpha[c]
         c += 1
 
     final_noise = noise
 
     #generate an image
-    generated_images = generator_model(final_noise)
-    generated_images = np.squeeze(generated_images(noise))
-    img = np.squeeze(generated_images(noise))*255
-
-    return img.astype(np.uint8)
+    generated_images = np.squeeze((model.generator(final_noise))+1)*255/2
+    return generated_images.astype(np.uint8)
