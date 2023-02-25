@@ -1,0 +1,11 @@
+docker push eu.gcr.io/lewagan/lewagan_docker
+
+gcloud run deploy \                        [🐍 LeWaGAN]
+                --project lewagan \
+                --image eu.gcr.io/lewagan/lewagan_docker \
+                --platform managed \
+                --region europe-west1 \
+                --env-vars-file .env.yaml
+
+
+sudo docker build -t eu.gcr.io/lewagan/lewagan_docker .

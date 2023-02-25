@@ -8,3 +8,7 @@ raw_data/
 .env
 local_test/
 .python-version
+.ipynb_checkpoints
+.ipynb
+saved_models
+local_training/
