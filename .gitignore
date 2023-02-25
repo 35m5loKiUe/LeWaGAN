@@ -8,3 +8,7 @@ raw_data/
 .env
 local_test/
 .python-version
+LeWaGAN/model_saves/
+LeWaGAN/notebooks/Test.ipynb
+data/
+notebooks/
