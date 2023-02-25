@@ -33,7 +33,7 @@ def generate_model(model_type='gan_ada'):
 
 def train_model(model, dataset):
     latent_vec=generate_noise(2**2)
-    cbk = GANMonitor(sqr_size=5, latent_dim=NOISE_DIM, latent_vec=latent_vec)
+    cbk = GANMonitor(sqr_size=2, latent_dim=NOISE_DIM, latent_vec=latent_vec)
     model.fit(dataset, epochs=EPOCHS, callbacks=[cbk])
     return model
 
