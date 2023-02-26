@@ -34,7 +34,7 @@ def normalize_vector(v) :
     return v / norm
 
 
-def eigenvectors(model, k=10) :
+def eigenvectors(model, k=5) :
     """This function computes the k most important eigenvectors from
     1st dense layer of generator
     it returns a list of k vectors callable by index"""
