@@ -1,5 +1,5 @@
 from LeWaGAN.interface.params import NOISE_DIM, EPOCHS, IMAGE_SIZE, NB_FILTERS
-from LeWaGAN.model.classes import WGAN, GANMonitor, GAN_ADA
+from LeWaGAN.model.classes import WGAN, GANMonitor, GAN_ADA, WGAN_upsampling
 from LeWaGAN.model.registery import save_model, save_eigenvectors, load_eigenvectors, load_model
 from LeWaGAN.data.dataset import load_dataset, normalize_dataset
 from LeWaGAN.postprocessing.generate import image_with_eigenvectors, generate_noise, eigenvectors
@@ -34,7 +34,7 @@ def generate_model(model_type='gan_ada'):
             beta_1=0.5
         )
     if model_type == 'wgan_upsampling':
-        model = WGAN(
+        model = WGAN_upsampling(
             image_size=IMAGE_SIZE,
             nb_filters=NB_FILTERS,
             noise_dim=NOISE_DIM,
