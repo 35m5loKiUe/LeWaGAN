@@ -6,21 +6,45 @@ from LeWaGAN.postprocessing.generate import image_with_eigenvectors, generate_no
 import matplotlib.pyplot as plt
 
 def generate_model(model_type='gan_ada'):
-    assert model_type in ['wgan', 'gan_ada']
+    assert model_type in ['wgan', 'gan_ada', 'wgan_upsampling']
     if model_type == 'gan_ada':
         model = GAN_ADA(
-        IMAGE_SIZE,
-        NB_FILTERS,
-        NOISE_DIM,
-        NB_FILTERS
+            image_size=IMAGE_SIZE,
+            nb_filters=NB_FILTERS,
+            noise_dim=NOISE_DIM,
+            dropout_rate=0.2,
+            ema=0.99,
+            leaky_relu_slope=0.2,
+            initial_learning_rate = 2e-5,
+            decay_steps=8000,
+            decay_rate=0.5,
+            beta_1=0.5
         )
     if model_type == 'wgan':
         model = WGAN(
-        image_size=IMAGE_SIZE,
-        nb_filters=NB_FILTERS,
-        latent_dim=NOISE_DIM,
-        discriminator_extra_steps=3,
-        gp_weight=10.0
+            image_size=IMAGE_SIZE,
+            nb_filters=NB_FILTERS,
+            noise_dim=NOISE_DIM,
+            discriminator_extra_steps=5,
+            gp_weight=10.0,
+            dropout_rate=0.2,
+            leaky_relu_slope=0.2,
+            initial_learning_rate = 2e-4,
+            decay_steps=8000,
+            beta_1=0.5
+        )
+    if model_type == 'wgan_upsampling':
+        model = WGAN(
+            image_size=IMAGE_SIZE,
+            nb_filters=NB_FILTERS,
+            noise_dim=NOISE_DIM,
+            discriminator_extra_steps=5,
+            gp_weight=10.0,
+            dropout_rate=0.2,
+            leaky_relu_slope=0.2,
+            initial_learning_rate = 2e-5,
+            decay_steps=4729,
+            beta_1=0.5
         )
     model.compile()
     return model
@@ -39,12 +63,13 @@ def train_model(model, dataset):
 
 
 if __name__ == '__main__':
-    model = generate_model()
+    model = generate_model(model_type='wgan')
     dataset = load_dataset()
     dataset = normalize_dataset(dataset)
 
     #model = save_model(model)
-    #model = load_model(model)
+    model = load_model(model)
+    model.compile()
     model = train_model(model, dataset)
     #eig = eigenvectors(model, 5)
     #eig = save_eigenvectors(eig)
